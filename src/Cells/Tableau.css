@@ -1,0 +1,10 @@
+.Tableau {
+  position: relative;
+  display: flex;
+  top: 80px;
+  justify-content: center;
+}
+
+.Tableau-positioner {
+  position: absolute;
+}
