@@ -160,27 +160,53 @@ class GameBoard extends Component {
         <button onClick={this.handleBack}>Zpět</button>
         <div>Počet tahů: {gameLogic.solution.length - 1}</div>
         <div>
-          {gameLogic.solution.map((item) =>
-            item.movedCard ? (
+          {gameLogic.solution.map((item) => {
+            if (item.movedCard) {
+            const item0 = item.movedCard[0]
+            const x = item.movedCard[1];
+            const items = x.split('-');
+            const item1 = items.length>0?{number:items[0],suit:items[1]}:x;            
+
+            return (
               <>
-                <span>{item.movedCard[0].number}</span>
+                <span>{item0.number}</span>
                 <span
                   style={{
                     color:
-                      item.movedCard[0].suit === "d" ||
-                      item.movedCard[0].suit === "h"
+                      item0.suit === "d" ||
+                      item0.suit === "h"
                         ? "red"
                         : "black",
                   }}
                 >
                   {suitShortToSymbolNameMap[item.movedCard[0].suit]}
                 </span>
-                <span>{"->" + item.movedCard[1] + ","}</span>
+                <span>{"->"}
+                 {typeof (item1) === 'string' && (
+                  <>{x}</>
+                 )}
+                 {!(typeof (item1) === 'string') && (<>
+                 <span>{item1.number}</span>
+                  <span
+                   style={{
+                    color:
+                      item1.suit === "d" ||
+                      item1.suit === "h"
+                        ? "red"
+                        : "black",
+                  }}
+                 >
+                  {suitShortToSymbolNameMap[item1.suit]}
+                 </span>
+                  </>)}
+                ,
+                </span>
               </>
-            ) : (
-              ""
-            )
-          )}
+            ) 
+            } else {
+              return ""
+            }
+        })}
         </div>
         <div
           ref={this.gameBoard}

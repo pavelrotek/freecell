@@ -148,10 +148,21 @@ export function executeMoveToTableau(
   let newState = makeStateCopy ? Object.assign({}, state) : state;
   let cardsToMove = removeCardsAtPosition(newState, position);
 
+  const cardToMoveTo =
+    newState.cardTableaux[newTableauNumber].length > 0
+      ? newState.cardTableaux[newTableauNumber][
+          newState.cardTableaux[newTableauNumber].length - 1
+        ]
+      : undefined;
+
   // Push card onto end of new tableau
   newState.cardTableaux[newTableauNumber].push(...cardsToMove);
   newState.movedCard = cardsToMove;
-  newState.movedCard.push("K");
+  newState.movedCard.push(
+    cardToMoveTo === undefined
+      ? "VS"
+      : cardToMoveTo.number + "-" + cardToMoveTo.suit
+  );
 
   solution.push(JSON.parse(JSON.stringify(newState)));
 
